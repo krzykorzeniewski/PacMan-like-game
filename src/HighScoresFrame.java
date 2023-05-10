@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.util.Vector;
 
 public class HighScoresFrame extends JFrame {
@@ -7,7 +8,8 @@ public class HighScoresFrame extends JFrame {
 
         JList jList = new JList();
         jList.setModel(new HighScoresModel(PacMan.getUsernames()));
-        add(jList);
+        JScrollPane jScrollPane = new JScrollPane(jList);
+        add(jScrollPane);
 
         pack();
         setSize(400, 600);

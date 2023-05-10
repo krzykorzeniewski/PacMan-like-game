@@ -14,7 +14,13 @@ public class Menu extends JFrame {
     }
 
     public void generateMenu() {
+        Font font = new Font("Monospaced", Font.ITALIC | Font.BOLD, 30);
         JButton newGameButton = new JButton("New Game");
+        newGameButton.setBorderPainted(false);
+        newGameButton.setContentAreaFilled(false);
+        newGameButton.setFont(font);
+        newGameButton.setForeground(Color.WHITE);
+        newGameButton.setToolTipText("Start new game");
         newGameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -23,6 +29,11 @@ public class Menu extends JFrame {
         });
 
         JButton highScoresButton = new JButton("High Scores");
+        highScoresButton.setBorderPainted(false);
+        highScoresButton.setContentAreaFilled(false);
+        highScoresButton.setFont(font);
+        highScoresButton.setForeground(Color.WHITE);
+        highScoresButton.setToolTipText("Open high scores table");
         highScoresButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -36,6 +47,11 @@ public class Menu extends JFrame {
         });
 
         JButton exitButton = new JButton("Exit");
+        exitButton.setBorderPainted(false);
+        exitButton.setContentAreaFilled(false);
+        exitButton.setFont(font);
+        exitButton.setForeground(Color.WHITE);
+        exitButton.setToolTipText("Exit game");
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -43,7 +59,7 @@ public class Menu extends JFrame {
             }
         });
 
-        Image img = new ImageIcon("src/PacManBackground.png").getImage();
+        Image img = new ImageIcon("src/Background.jpeg").getImage();
         JPanel jPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -56,14 +72,13 @@ public class Menu extends JFrame {
         jPanel.add(highScoresButton);
         jPanel.add(exitButton);
         jPanel.setOpaque(true);
-        Dimension d = new Dimension(1920, 1080);
-        jPanel.setPreferredSize(d);
         add(jPanel);
 
         pack();
         setVisible(true);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
 
     }
 }

@@ -46,8 +46,12 @@ public class GameBoardFrame extends JFrame {
                 Component c = new DefaultTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
                 if (row == 0 || row == table.getRowCount()-1 || column == 0 || column == table.getColumnCount()-1)
                     c.setBackground(Color.BLACK);
-                else
-                    c.setBackground(Color.BLUE);
+                else {
+                    c.setBackground(Color.MAGENTA);
+                    int rand = (int)(Math.random()*table.getColumnCount()+1);
+                    if ((row % 4 == 0 || column % 2 == 0) || (column+row) % rand == 0)
+                        c.setBackground(Color.BLACK);
+                }
                 return c;
             }
         };
@@ -64,7 +68,5 @@ public class GameBoardFrame extends JFrame {
         setVisible(true);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
     }
-
 }
