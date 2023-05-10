@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 
 public class GameBoardFrame extends JFrame {
@@ -38,9 +40,23 @@ public class GameBoardFrame extends JFrame {
             return;
         }
 
+        TableCellRenderer myCellRenderer = new TableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                Component c = new DefaultTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                if (row == 0 || row == table.getRowCount()-1 || column == 0 || column == table.getColumnCount()-1)
+                    c.setBackground(Color.BLACK);
+                else
+                    c.setBackground(Color.BLUE);
+                return c;
+            }
+        };
+
         JTable jTable = new JTable();
+        jTable.setDefaultRenderer(Object.class, myCellRenderer);
         jTable.setModel(gameBoardModel);
         jTable.setBackground(Color.BLACK);
+        jTable.setGridColor(Color.WHITE);
         add(jTable);
 
         setLayout(new GridBagLayout());;

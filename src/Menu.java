@@ -1,7 +1,11 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class Menu extends JFrame {
 
@@ -39,18 +43,27 @@ public class Menu extends JFrame {
             }
         });
 
-        setLayout(new FlowLayout());
+        Image img = new ImageIcon("src/PacManBackground.png").getImage();
+        JPanel jPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(img, 0, 0, getWidth(),getHeight(),null);
+            }
+        };
+        jPanel.setLayout(new FlowLayout());
+        jPanel.add(newGameButton);
+        jPanel.add(highScoresButton);
+        jPanel.add(exitButton);
+        jPanel.setOpaque(true);
+        Dimension d = new Dimension(1920, 1080);
+        jPanel.setPreferredSize(d);
+        add(jPanel);
 
-        add(newGameButton);
-        add(highScoresButton);
-        add(exitButton);
-
-        setSize(400, 600);
         pack();
         setVisible(true);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     }
-
 }
