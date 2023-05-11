@@ -14,18 +14,15 @@ public class Menu extends JFrame {
     }
 
     public void generateMenu() {
-        Font font = new Font("Monospaced", Font.ITALIC | Font.BOLD, 30);
+        Font font = new Font("Monospaced", Font.ITALIC | Font.BOLD, 40);
         JButton newGameButton = new JButton("New Game");
         newGameButton.setBorderPainted(false);
         newGameButton.setContentAreaFilled(false);
         newGameButton.setFont(font);
         newGameButton.setForeground(Color.WHITE);
         newGameButton.setToolTipText("Start new game");
-        newGameButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                GameBoardFrame gameBoardFrame = new GameBoardFrame();
-            }
+        newGameButton.addActionListener(e -> {
+            GameBoardFrame gameBoardFrame = new GameBoardFrame();
         });
 
         JButton highScoresButton = new JButton("High Scores");
@@ -34,15 +31,12 @@ public class Menu extends JFrame {
         highScoresButton.setFont(font);
         highScoresButton.setForeground(Color.WHITE);
         highScoresButton.setToolTipText("Open high scores table");
-        highScoresButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (PacMan.getUsernames() == null) {
-                    JOptionPane.showMessageDialog(null, "High scores list is empty!");
-                }
-                else {
-                    HighScoresFrame highScoresFrame = new HighScoresFrame();
-                }
+        highScoresButton.addActionListener(e -> {
+            if (PacMan.getUsernames() == null) {
+                JOptionPane.showMessageDialog(null, "High scores list is empty!");
+            }
+            else {
+                HighScoresFrame highScoresFrame = new HighScoresFrame();
             }
         });
 
@@ -52,12 +46,7 @@ public class Menu extends JFrame {
         exitButton.setFont(font);
         exitButton.setForeground(Color.WHITE);
         exitButton.setToolTipText("Exit game");
-        exitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
+        exitButton.addActionListener(e -> System.exit(0));
 
         Image img = new ImageIcon("src/Background.jpeg").getImage();
         JPanel jPanel = new JPanel() {

@@ -1,7 +1,10 @@
 import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameBoardFrame extends JFrame {
 
@@ -23,50 +26,75 @@ public class GameBoardFrame extends JFrame {
             if (Integer.parseInt(width.getText()) < 10 || Integer.parseInt(length.getText()) < 10 || Integer.parseInt(width.getText()) > 100 || Integer.parseInt(length.getText()) > 100) {
                 JOptionPane.showMessageDialog(null, "This size is not allowed, try again!");
                 return;
-            }
-            else {
+            } else {
                 gameBoardModel.setBoardDimensions(Integer.parseInt(length.getText()), Integer.parseInt(width.getText()));
-                JPanel namePanel = new JPanel(new GridLayout(1, 1));
-                namePanel.add(new JLabel("username:"));
-                JTextField name = new JTextField();
-                namePanel.add(name);
-                JOptionPane.showConfirmDialog(null, namePanel, "Enter your username", JOptionPane.OK_CANCEL_OPTION);
-                String pacManName = name.getText();
-                PacMan pacMan = new PacMan(pacManName);
-                System.out.println(PacMan.getUsernames());
             }
-        }
-        else {
+        } else {
             return;
         }
 
-        TableCellRenderer myCellRenderer = new TableCellRenderer() {
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                Component c = new DefaultTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                if (row == 0 || row == table.getRowCount()-1 || column == 0 || column == table.getColumnCount()-1)
-                    c.setBackground(Color.BLACK);
-                else {
-                    c.setBackground(Color.MAGENTA);
-                    int rand = (int)(Math.random()*table.getColumnCount()+1);
-                    if ((row % 4 == 0 || column % 2 == 0) || (column+row) % rand == 0)
-                        c.setBackground(Color.BLACK);
+        TableCellRenderer myCellRenderer = (table, value, isSelected, hasFocus, row, column) -> {
+            Component c = new DefaultTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+            if (row == 0 || column == 0 || row == table.getRowCount()-1 || column == table.getColumnCount()-1)
+                c.setBackground(Color.BLACK);
+            else {
+                for (int i = 0; i < table.getRowCount(); i++) {
+                    for (int j = 0; j < table.getColumnCount(); j++) {
+                        c.setBackground(Color.BLUE);
+                        if (c.getBackground().equals(Color.BLUE)) {
+                            int rand = (int)(Math.random()*3);
+                            if (rand == 1)
+                                c.setBackground(Color.BLACK);
+                        }
+                        if (row % 2 == 0)
+                            c.setBackground(Color.BLACK);
+                    }
                 }
-                return c;
             }
+            if ((row == table.getRowCount()/2 && column == table.getColumnCount()/2) ||  (row == table.getRowCount()/2+1 && column == table.getColumnCount()/2))
+                c.setBackground(Color.YELLOW);
+            return c;
         };
 
-        JTable jTable = new JTable();
-        jTable.setDefaultRenderer(Object.class, myCellRenderer);
-        jTable.setModel(gameBoardModel);
-        jTable.setBackground(Color.BLACK);
-        jTable.setGridColor(Color.WHITE);
-        add(jTable);
+        Image img = new ImageIcon("src/PacMan.png").getImage();
 
-        setLayout(new GridBagLayout());;
+
+        JTable jTable = new JTable();
+        jTable.setBackground(Color.BLACK);
+        jTable.setModel(gameBoardModel);
+        jTable.setGridColor(Color.WHITE);
+        jTable.setDefaultRenderer(Object.class, myCellRenderer);
+        add(jTable);
+        setLayout(new GridBagLayout());
+
         pack();
         setVisible(true);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
     }
+
+
+
+
+    public static boolean hasNeighbour (Object[][] arr, int row, int col) {
+        int counter = 0;
+        int val = (int) arr[row][col];
+        if (row > 0 && col > 0 && row < arr.length-1 && col < arr[0].length-1)
+        {
+            if ((int)arr[row][col - 1] == val)
+                counter++;
+            if ((int)arr[row][col + 1] == val)
+                counter++;
+            if ((int)arr[row - 1][col] == val)
+                counter++;
+            if ((int)arr[row + 1][col] == val)
+                counter++;
+        }
+        return counter == 1;
+    }
+
 }
+
+
+
