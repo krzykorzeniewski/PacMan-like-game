@@ -1,10 +1,17 @@
+import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
+import java.awt.*;
 
 public class GameBoardModel extends AbstractTableModel {
 
-    private int x;
+    private int width;
+    private int length;
+
+    protected Image ghost = new ImageIcon("Ghost.png").getImage();
+    protected Image pacMan = new ImageIcon("PacMan.png").getImage();
     private int y;
     private Object[][] board = new Object[10][10]; //default size
+
     @Override
     public int getRowCount() {
         return board.length;
@@ -24,12 +31,12 @@ public class GameBoardModel extends AbstractTableModel {
         return board;
     }
 
-    public void setX(int x) {
-        this.x = x;
+    public void setWidth(int width) {
+        this.width = width;
     }
 
-    public void setY(int y) {
-        this.y = y;
+    public void setLength(int length) {
+        this.length = length;
     }
 
     public void setBoardDimensions (int x, int y) {

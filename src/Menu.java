@@ -1,8 +1,7 @@
-import javax.imageio.ImageIO;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -21,8 +20,27 @@ public class Menu extends JFrame {
         newGameButton.setFont(font);
         newGameButton.setForeground(Color.WHITE);
         newGameButton.setToolTipText("Start new game");
+        KeyStroke keyStrokeToClose = KeyStroke.getKeyStroke(KeyEvent.VK_Q, KeyEvent.CTRL_DOWN_MASK|KeyEvent.SHIFT_DOWN_MASK);
         newGameButton.addActionListener(e -> {
+            InputMap inputMap = newGameButton.getInputMap();
+            inputMap.put(keyStrokeToClose, this); // nevermind
+
             GameBoardFrame gameBoardFrame = new GameBoardFrame();
+            gameBoardFrame.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    JPanel jPanel = new JPanel(new GridLayout(1,1));
+                    JLabel jLabel = new JLabel("username:");
+                    jPanel.add(jLabel);
+                    JTextField jTextField = new JTextField();
+                    jPanel.add(jTextField);
+                    int res = JOptionPane.showConfirmDialog(null, jPanel,"Enter username",  JOptionPane.OK_CANCEL_OPTION);
+                    if (res == JOptionPane.OK_OPTION) {
+                        String pacName = jTextField.getText();
+                        PacMan pacMan = new PacMan(pacName);
+                    }
+                }
+            });
         });
 
         JButton highScoresButton = new JButton("High Scores");
