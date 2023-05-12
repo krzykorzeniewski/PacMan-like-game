@@ -35,4 +35,8 @@ public class GameBoardModel extends AbstractTableModel {
     public void setBoardDimensions (int x, int y) {
         this.board = new Object[x][y];
     }
+
+    public void setBoard(Object[][] board) {
+        this.board = board;
+    }
 }
