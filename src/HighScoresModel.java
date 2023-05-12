@@ -3,9 +3,9 @@ import java.util.Vector;
 
 public class HighScoresModel extends AbstractListModel {
 
-    private Vector<String> names;
+    private Vector<PacMan> names;
 
-    public HighScoresModel(Vector<String> names) {
+    public HighScoresModel(Vector<PacMan> names) {
         this.names = names;
     }
 
@@ -19,11 +19,11 @@ public class HighScoresModel extends AbstractListModel {
         return names.elementAt(index);
     }
 
-    public Vector<String> getNames() {
+    public Vector<PacMan> getNames() {
         return names;
     }
 
-    public void setNames(Vector<String> names) {
+    public void setNames(Vector<PacMan> names) {
         this.names = names;
     }
 }
