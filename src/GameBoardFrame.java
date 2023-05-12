@@ -38,20 +38,21 @@ public class GameBoardFrame extends JFrame {
             if (row == 0 || column == 0 || row == table.getRowCount()-1 || column == table.getColumnCount()-1)
                 c.setBackground(Color.BLACK);
             else {
-                for (int i = 0; i < table.getRowCount(); i++) {
-                    for (int j = 0; j < table.getColumnCount(); j++) {
+                for (int i = 0; i < table.getRowCount()/2; i++) {
+                    for (int j = 0; j < table.getColumnCount()/2; j++) {
                         c.setBackground(Color.BLUE);
                         if (c.getBackground().equals(Color.BLUE)) {
-                            int rand = (int)(Math.random()*3);
+                            int rand = (int) (Math.random() * 3);
                             if (rand == 1)
                                 c.setBackground(Color.BLACK);
                         }
-                        if (row % 2 == 0)
-                            c.setBackground(Color.BLACK);
+                        if (row % 2 == 0) {
+                                c.setBackground(Color.BLACK);
+                        }
                     }
                 }
             }
-            if ((row == table.getRowCount()/2 && column == table.getColumnCount()/2) ||  (row == table.getRowCount()/2+1 && column == table.getColumnCount()/2))
+            if ((row == table.getRowCount()/2 && column == table.getColumnCount()/2) ||  (row == table.getRowCount()/2+1 && column == table.getColumnCount()/2) ||  (row == table.getRowCount()/2+1 && column == table.getColumnCount()/2+1) ||  (row == table.getRowCount()/2 && column == table.getColumnCount()/2+1))
                 c.setBackground(Color.YELLOW);
             return c;
         };
@@ -72,26 +73,6 @@ public class GameBoardFrame extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-    }
-
-
-
-
-    public static boolean hasNeighbour (Object[][] arr, int row, int col) {
-        int counter = 0;
-        int val = (int) arr[row][col];
-        if (row > 0 && col > 0 && row < arr.length-1 && col < arr[0].length-1)
-        {
-            if ((int)arr[row][col - 1] == val)
-                counter++;
-            if ((int)arr[row][col + 1] == val)
-                counter++;
-            if ((int)arr[row - 1][col] == val)
-                counter++;
-            if ((int)arr[row + 1][col] == val)
-                counter++;
-        }
-        return counter == 1;
     }
 
 }
