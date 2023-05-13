@@ -2,14 +2,20 @@ import java.util.Vector;
 
 public class PacMan {
     private String username;
-    protected int x;
-    protected int y;
+    private int x;
+    private int y;
+    private int direction; // 0-prawo, 1-dol, 2-lewo, 3-gora
+    private boolean isAlive;
     private static Vector<PacMan> usernames = new Vector<>();
     private int points;
 
-    public PacMan() {
+    public PacMan(int x, int y) {
         this.points = 0;
+        this.isAlive = true;
+        this.x = x;
+        this.y = y;
         usernames.add(this);
+        this.direction = 0;
     }
 
     public void addUsername(PacMan pac) {
@@ -50,6 +56,20 @@ public class PacMan {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    public void setDirection(int direction) {
+        this.direction = direction;
+    }
+    public int getDirection() {
+        return direction;
+    }
+
+    public boolean isAlive() {
+        return isAlive;
+    }
+    public void addPoint() {
+        points++;
     }
 }
 

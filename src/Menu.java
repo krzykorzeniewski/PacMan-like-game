@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class Menu extends JFrame {
+public class Menu extends JFrame{
     static int counter = 0;
     public Menu() {
         generateMenu();
@@ -19,7 +19,7 @@ public class Menu extends JFrame {
         setVisible(true);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setSize(600,400);
 
     }
 
@@ -32,25 +32,53 @@ public class Menu extends JFrame {
         newGameButton.setForeground(Color.WHITE);
         newGameButton.setToolTipText("Start new game");
         newGameButton.addActionListener(e -> {
-            GameBoardFrame gameBoardFrame = new GameBoardFrame();
-            gameBoardFrame.addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowClosed(WindowEvent e) {
-                    JPanel jPanel = new JPanel(new GridLayout(1,1));
-                    JLabel jLabel = new JLabel("username:");
-                    jPanel.add(jLabel);
-                    JTextField jTextField = new JTextField();
-                    jPanel.add(jTextField);
-                    int res = JOptionPane.showConfirmDialog(null, jPanel,"Enter username",  JOptionPane.OK_CANCEL_OPTION);
-                    if (res == JOptionPane.OK_OPTION) {
-                        String pacName = jTextField.getText();
-                        PacMan.getUsernames().get(counter++).setUsername(pacName);
+            JPanel jPanel = new JPanel(new GridLayout(2, 2));
+
+            jPanel.add(new JLabel("length:"));
+            JTextField length = new JTextField();
+            jPanel.add(length);
+
+            jPanel.add(new JLabel("width:"));
+            JTextField width = new JTextField();
+            jPanel.add(width);
+            int result = JOptionPane.showConfirmDialog(null, jPanel, "Set gameboard size", JOptionPane.OK_CANCEL_OPTION);
+
+            if (result == JOptionPane.OK_OPTION) {
+                try {
+                    if (Integer.parseInt(width.getText()) < 10 || Integer.parseInt(length.getText()) < 10 || Integer.parseInt(width.getText()) > 100 || Integer.parseInt(length.getText()) > 100) {
+                        JOptionPane.showMessageDialog(null, "This size is not allowed, try again!");
+                        return;
+                    } else {
+                        GameBoardModel gameBoardModel = new GameBoardModel(Integer.parseInt(width.getText()), Integer.parseInt(length.getText()));
+                        GameBoardFrame gameBoardFrame = new GameBoardFrame(gameBoardModel);
+                        gameBoardFrame.addWindowListener(new WindowAdapter() {
+                            @Override
+                            public void windowClosed(WindowEvent e) {
+                                JPanel jPanel = new JPanel(new GridLayout(1, 1));
+                                JLabel jLabel = new JLabel("username:");
+                                jPanel.add(jLabel);
+                                JTextField jTextField = new JTextField();
+                                jPanel.add(jTextField);
+                                int res = JOptionPane.showConfirmDialog(null, jPanel, "Enter username", JOptionPane.OK_CANCEL_OPTION);
+                                if (res == JOptionPane.OK_OPTION) {
+                                    String pacName = jTextField.getText();
+                                }
+                            }
+                        });
                     }
+                } catch (NumberFormatException NFE) {
+                    JOptionPane.showMessageDialog(null, "This size is not allowed, try again!");
+                    return;
                 }
-            });
+            } else {
+                return;
+            }
+
         });
         return newGameButton;
     }
+
+
     public JButton exitButton() {
         Font font = new Font("Monospaced", Font.ITALIC | Font.BOLD, 40);
         JButton exitButton = new JButton("Exit");
