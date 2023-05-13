@@ -77,22 +77,22 @@ public class GameBoardFrame extends JFrame{
         jTable.setDefaultRenderer(Object.class, myRenderer);
         int randomDirection = (int)(Math.random()*4+1);
         if (!jTable.getValueAt(ghosts.get(0).getX(), ghosts.get(0).getY() - 1).equals(0) && randomDirection == 1) {
-            jTable.setValueAt(2, ghosts.get(0).getX(), ghosts.get(0).getY());
+            jTable.setValueAt(1, ghosts.get(0).getX(), ghosts.get(0).getY());
             jTable.setValueAt(ghosts.get(0), ghosts.get(0).getX(), ghosts.get(0).getY() - 1);
             ghosts.get(0).setY(ghosts.get(0).getY() - 1);
             jTable.repaint();
         } else if (!jTable.getValueAt(ghosts.get(0).getX() - 1, ghosts.get(0).getY()).equals(0) && randomDirection == 2) {
-            jTable.setValueAt(2, ghosts.get(0).getX(), ghosts.get(0).getY());
+            jTable.setValueAt(1, ghosts.get(0).getX(), ghosts.get(0).getY());
             jTable.setValueAt(ghosts.get(0), ghosts.get(0).getX() - 1, ghosts.get(0).getY());
             ghosts.get(0).setX(ghosts.get(0).getX() - 1);//gora
             jTable.repaint();
         } else if (!jTable.getValueAt(ghosts.get(0).getX(), ghosts.get(0).getY() + 1).equals(0)) {
-            jTable.setValueAt(2, ghosts.get(0).getX(), ghosts.get(0).getY());
+            jTable.setValueAt(1, ghosts.get(0).getX(), ghosts.get(0).getY());
             jTable.setValueAt(ghosts.get(0), ghosts.get(0).getX(), ghosts.get(0).getY() + 1);
             ghosts.get(0).setY(ghosts.get(0).getY() + 1);//prawo
             jTable.repaint();
         } else if  (!jTable.getValueAt(ghosts.get(0).getX() + 1, ghosts.get(0).getY()).equals(0)) {
-            jTable.setValueAt(2, ghosts.get(0).getX(),ghosts.get(0).getY());
+            jTable.setValueAt(1, ghosts.get(0).getX(),ghosts.get(0).getY());
             jTable.setValueAt(ghosts.get(0), ghosts.get(0).getX() + 1,ghosts.get(0).getY()); //dol
             ghosts.get(0).setX(ghosts.get(0).getX() + 1);
             jTable.repaint();
@@ -113,6 +113,7 @@ public class GameBoardFrame extends JFrame{
                                 jTable.setValueAt(pac, pac.getX(), pac.getY() - 1);
                                 pac.setY(pac.getY() - 1);
                                 pac.addPoint();
+                                moveGhost();
                                 jTable.repaint();
                             }
                             break;
@@ -122,6 +123,7 @@ public class GameBoardFrame extends JFrame{
                                 jTable.setValueAt(pac, pac.getX() - 1, pac.getY());
                                 pac.setX(pac.getX() - 1);//gora
                                 pac.addPoint();
+                                moveGhost();
                                 jTable.repaint();
                             }
                             break;
@@ -131,6 +133,7 @@ public class GameBoardFrame extends JFrame{
                                 jTable.setValueAt(pac, pac.getX(), pac.getY() + 1);
                                 pac.setY(pac.getY() + 1);//prawo
                                 pac.addPoint();
+                                moveGhost();
                                 jTable.repaint();
                             }
                             break;
@@ -140,6 +143,7 @@ public class GameBoardFrame extends JFrame{
                                 jTable.setValueAt(pac, pac.getX() + 1, pac.getY()); //dol
                                 pac.setX(pac.getX() + 1);
                                 pac.addPoint();
+                                moveGhost();
                                 jTable.repaint();
                             }
                             break;
@@ -151,11 +155,36 @@ public class GameBoardFrame extends JFrame{
 
             @Override
             public void keyReleased(KeyEvent e) {
-
+                if (e.isControlDown() && e.isShiftDown() && (e.getKeyChar() == 'q' || e.getKeyChar() == 'Q'))
+                    dispose();
             }
         });
 
 
+    }
+    public void moveGhost() {
+        int randomDirection = (int)(Math.random()*4+1);
+        if (!jTable.getValueAt(ghosts.get(0).getX(), ghosts.get(0).getY() - 1).equals(0) && randomDirection == 1) {
+            jTable.setValueAt(1, ghosts.get(0).getX(), ghosts.get(0).getY());
+            jTable.setValueAt(ghosts.get(0), ghosts.get(0).getX(), ghosts.get(0).getY() - 1);
+            ghosts.get(0).setY(ghosts.get(0).getY() - 1);
+            jTable.repaint();
+        } else if (!jTable.getValueAt(ghosts.get(0).getX() - 1, ghosts.get(0).getY()).equals(0) && randomDirection == 2) {
+            jTable.setValueAt(1, ghosts.get(0).getX(), ghosts.get(0).getY());
+            jTable.setValueAt(ghosts.get(0), ghosts.get(0).getX() - 1, ghosts.get(0).getY());
+            ghosts.get(0).setX(ghosts.get(0).getX() - 1);//gora
+            jTable.repaint();
+        } else if (!jTable.getValueAt(ghosts.get(0).getX(), ghosts.get(0).getY() + 1).equals(0)&& randomDirection == 3) {
+            jTable.setValueAt(1, ghosts.get(0).getX(), ghosts.get(0).getY());
+            jTable.setValueAt(ghosts.get(0), ghosts.get(0).getX(), ghosts.get(0).getY() + 1);
+            ghosts.get(0).setY(ghosts.get(0).getY() + 1);//prawo
+            jTable.repaint();
+        } else if  (!jTable.getValueAt(ghosts.get(0).getX() + 1, ghosts.get(0).getY()).equals(0) && randomDirection == 4) {
+            jTable.setValueAt(1, ghosts.get(0).getX(),ghosts.get(0).getY());
+            jTable.setValueAt(ghosts.get(0), ghosts.get(0).getX() + 1,ghosts.get(0).getY()); //dol
+            ghosts.get(0).setX(ghosts.get(0).getX() + 1);
+            jTable.repaint();
+        }
     }
 
 }
