@@ -2,9 +2,6 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 public class Menu extends JFrame{
     static int counter = 0;
@@ -62,6 +59,7 @@ public class Menu extends JFrame{
                                 int res = JOptionPane.showConfirmDialog(null, jPanel, "Enter username", JOptionPane.OK_CANCEL_OPTION);
                                 if (res == JOptionPane.OK_OPTION) {
                                     String pacName = jTextField.getText();
+                                    PacMan.getUsernames().get(counter++).setUsername(pacName);
                                 }
                             }
                         });

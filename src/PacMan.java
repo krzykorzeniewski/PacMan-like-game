@@ -39,7 +39,7 @@ public class PacMan {
 
     @Override
     public String toString() {
-        return "Username: "+username+" "+" High score: "+points;
+        return "Username: ["+username+"] "+" High score: ["+points+"]";
     }
 
     public int getX() {
@@ -70,6 +70,10 @@ public class PacMan {
     }
     public void addPoint() {
         points++;
+    }
+
+    public void setAlive(boolean alive) {
+        isAlive = alive;
     }
 }
 
