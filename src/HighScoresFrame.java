@@ -14,7 +14,7 @@ public class HighScoresFrame extends JFrame {
         add(jScrollPane);
 
         pack();
-        setSize(400, 600);
+        setSize(400, 300);
         setVisible(true);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

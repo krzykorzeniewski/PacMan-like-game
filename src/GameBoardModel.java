@@ -26,6 +26,7 @@ public class GameBoardModel extends AbstractTableModel {
         }
     }
 
+
     @Override
     public int getRowCount() {
         return board.length;

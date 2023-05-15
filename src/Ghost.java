@@ -7,7 +7,7 @@ public class Ghost {
     private int y;
     private int direction;
     private boolean isAlive;
-    private String[] bonuses = {"Ghost Speed Boosted", "Ghost Speed Reduced", "Plus 100 Points", "3 Ghosts Spawn", "Eliminate all ghosts"};
+    private String[] bonuses = {"Ghost Speed Boosted", "Ghost Speed Reduced", "Plus 50 Points", "Another Ghost Spawns", "Eliminate all ghosts"};
 
     public Ghost(int x, int y) {
         this.x = x;

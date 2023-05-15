@@ -1,12 +1,13 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GameBoardFrame extends JFrame{
+    private int bonusCounter=0;
+    private JPanel jPanel;
     private JTable jTable;
     private JLabel pointsLabel;
     private JLabel timeLabel;
@@ -14,10 +15,29 @@ public class GameBoardFrame extends JFrame{
     private List<Ghost> ghosts = new ArrayList<>();
     private GameBoardModel gameBoardModel;
     private PacMan pac;
-    private ImageIcon boostImg = new ImageIcon("src/Boost.png");
+    private ImageIcon bombImg = new ImageIcon("src/Bomb.png");
+    private ImageIcon boostImg = new ImageIcon("src/Boost.jpeg");
     private ImageIcon ghostImg = new ImageIcon("src/Ghost.png");
-    private ImageIcon pacManImg = new ImageIcon("src/PacManPaint.png");
-    private ImageIcon pacManClosedImg = new ImageIcon("src/PacManClosedPaint.png");
+    private ImageIcon pacManImg = new ImageIcon("src/PacMan.png");
+    private ImageIcon pacManUpImg = new ImageIcon("src/PacManUp.png");
+    private ImageIcon pacManLeftImg = new ImageIcon("src/PacManLeft.png");
+    private ImageIcon pacManDownImg = new ImageIcon("src/PacManDown.png");
+
+    private ImageIcon pacManClosedImg = new ImageIcon("src/PacManClosed.png");
+
+    private ImageIcon pelletImg = new ImageIcon("src/Pellet.png");
+    private ImageIcon brickImg = new ImageIcon("src/Brick.png");
+    private Image scaledBrickImage = brickImg.getImage().getScaledInstance(55, 55, Image.SCALE_SMOOTH);
+    private Image scaledBombImage = bombImg.getImage().getScaledInstance(35, 35, Image.SCALE_SMOOTH);
+    private Image scaledBoostImage = boostImg.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+    private Image scaledPelletImage = pelletImg.getImage().getScaledInstance(75, 75, Image.SCALE_SMOOTH);
+    private Image scaledGhostImage = ghostImg.getImage().getScaledInstance(45, 35, Image.SCALE_SMOOTH);
+    private Image scaledPacImage = pacManImg.getImage().getScaledInstance(45, 35, Image.SCALE_SMOOTH);
+    private Image scaledPacRightImage = pacManImg.getImage().getScaledInstance(45, 35, Image.SCALE_SMOOTH);
+    private Image scaledPacUpImage = pacManUpImg.getImage().getScaledInstance(45, 35, Image.SCALE_SMOOTH);
+    private Image scaledPacLeftImage = pacManLeftImg.getImage().getScaledInstance(45, 35, Image.SCALE_SMOOTH);
+    private Image scaledPacDownImage = pacManDownImg.getImage().getScaledInstance(45, 35, Image.SCALE_SMOOTH);
+    private Image scaledPacClosedImage = pacManClosedImg.getImage().getScaledInstance(45, 35, Image.SCALE_SMOOTH);
     private int counter;
     private int animCounter;
     private int ghostSpeed;
@@ -30,47 +50,46 @@ public class GameBoardFrame extends JFrame{
         this.timeLabel = new JLabel();
         this.jTable = new JTable();
         this.healthPointsLabel = new JLabel();
-        this.ghostSpeed = 150;
+        this.ghostSpeed = 200;
         jTable.setBackground(Color.BLACK);
         jTable.setModel(gameBoardModel);
-        jTable.setGridColor(Color.GRAY);
+        jTable.setGridColor(Color.BLACK);
         jTable.setCellSelectionEnabled(false);
-        jTable.setCellSelectionEnabled(false);
-        setLayout(new GridBagLayout());
-        this.add(healthPointsLabel);
-        this.add(jTable);
-        this.add(pointsLabel);
-        this.add(timeLabel);
+        this.setLayout(new BorderLayout());
+        JPanel jPanel1 = new JPanel();
+        jPanel1.add(pointsLabel);
+        jPanel1.add(timeLabel);
+        jPanel1.add(healthPointsLabel);
+        this.add(jTable, BorderLayout.CENTER);
+        this.add(jPanel1, BorderLayout.SOUTH);
         jTable.setValueAt(pac, pac.getX(), pac.getY());
         for (int i = 0; i < 3; i++) {
             Ghost ghost = new Ghost(jTable.getRowCount() / 2 + i, jTable.getColumnCount() / 2 + i);
             ghosts.add(ghost);
             jTable.setValueAt(ghost, jTable.getRowCount() / 2 + i, jTable.getColumnCount() / 2 + i);
         }
-
-        setLocationRelativeTo(null);
-        setSize(1000, 800);
-        setVisible(true);
+        jTable.setRowHeight(50);
+        jTable.getColumnModel().getColumn(0).setPreferredWidth(50);
         pack();
+        setSize(jTable.getWidth()+100, jTable.getHeight()+100);
+        setPreferredSize(new Dimension(jTable.getWidth()+100, jTable.getHeight()+100));
+        setVisible(true);
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        doLayout();
-
 
         DefaultTableCellRenderer myRenderer = new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 Component c = super.getTableCellRendererComponent(table, value , isSelected, hasFocus, row,column);
                 if (value.equals(0)) {
-                    c.setBackground(Color.BLUE);
-                    c.setForeground(Color.BLUE);
-                    super.setIcon(null);
+                    c.setBackground(Color.BLACK);
+                    c.setForeground(Color.BLACK);
+                    super.setIcon(new ImageIcon(scaledBrickImage));
                 }
                 else if (value.equals(1)) {
                     c.setBackground(Color.BLACK);
                     c.setForeground(Color.BLACK);
-                    ImageIcon imageIcon = new ImageIcon("src/Pellet.png");
-                    Image scaledImage = imageIcon.getImage().getScaledInstance(10, 10, Image.SCALE_SMOOTH);
-                    super.setIcon(new ImageIcon(scaledImage));
+                    super.setIcon(new ImageIcon(scaledPelletImage));
                 }
                 else if (value.equals(2)) {
                     c.setBackground(Color.BLACK);
@@ -79,25 +98,27 @@ public class GameBoardFrame extends JFrame{
                 }
                 else if (value.getClass().equals(Ghost.class)) {
                     c.setBackground(null);
-                    c.setForeground(null);
-                    Image scaledImage = ghostImg.getImage().getScaledInstance(15, 15, Image.SCALE_SMOOTH);
-                    super.setIcon(new ImageIcon(scaledImage));
+                    c.setForeground(Color.BLACK);;
+                    super.setIcon(new ImageIcon(scaledGhostImage));
                 }
                 else if (value.getClass().equals(PacMan.class)){
                    c.setBackground(null);
-                   c.setForeground(null);
-                   Image scaledImage = pacManImg.getImage().getScaledInstance(15, 15, Image.SCALE_SMOOTH);
-                   Image scaledClosedImage = pacManClosedImg.getImage().getScaledInstance(15, 15, Image.SCALE_SMOOTH);
+                   c.setForeground(Color.BLACK);
                    if (animCounter % 2 == 0)
-                        super.setIcon(new ImageIcon(scaledImage));
+                        super.setIcon(new ImageIcon(scaledPacImage));
                    else
-                        super.setIcon(new ImageIcon(scaledClosedImage));
+                        super.setIcon(new ImageIcon(scaledPacClosedImage));
                    animCounter++;
+                }
+                else if (value.equals(14)) {
+                    c.setBackground(null);
+                    c.setForeground(Color.BLACK);
+                    super.setIcon(new ImageIcon(scaledBombImage));
                 }
                 else {
                     c.setBackground(null);
-                    c.setForeground(Color.WHITE);
-                    super.setText("?");
+                    c.setForeground(Color.BLACK);
+                    super.setIcon(new ImageIcon(scaledBoostImage));
                 }
                 return c;
             }
@@ -131,8 +152,8 @@ public class GameBoardFrame extends JFrame{
             public void run() {
                 while (true) {
                     pointsLabel.setText("score: "+pac.getPoints()+" ");
-                    pointsLabel.setBackground(Color.BLACK);
-                    pointsLabel.setForeground(Color.ORANGE);
+                    pointsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+                    pointsLabel.setForeground(Color.BLACK);
                     pointsLabel.setOpaque(true);
                 }
             }
@@ -142,8 +163,7 @@ public class GameBoardFrame extends JFrame{
             public void run() {
                 while (true) {
                     healthPointsLabel.setText("health points "+pac.getHealthPoints()+" ");
-                    healthPointsLabel.setBackground(Color.BLACK);
-                    healthPointsLabel.setForeground(Color.ORANGE);
+                    healthPointsLabel.setForeground(Color.BLACK);
                     healthPointsLabel.setOpaque(true);
                 }
             }
@@ -169,35 +189,39 @@ public class GameBoardFrame extends JFrame{
 
             @Override
             public void keyPressed(KeyEvent e) {
-                Object pacX = pac.getX();
-                Object pacY = pac.getY();
+                int pacX = pac.getX();
+                int pacY = pac.getY();
 
                 try {
                     switch (e.getKeyCode()) {
                         case 37:
                             pacX = pac.getX();
                             pacY = pac.getY()-1;
+                            scaledPacImage = scaledPacLeftImage;
                             break;
                         case 38:
                             pacX = pac.getX()-1;
                             pacY = pac.getY();
+                            scaledPacImage = scaledPacUpImage;
                             break;
                         case 39:
                             pacX = pac.getX();
                             pacY = pac.getY()+1;
+                            scaledPacImage = scaledPacRightImage;
                             break;
                         case 40:
                             pacX = pac.getX()+1;
                             pacY = pac.getY();
+                            scaledPacImage = scaledPacDownImage;
                             break;
                     }
-                    if (!collision((int) pacX, (int) pacY)) {
-                        makeAMove((int)pacX, (int)pacY);
+                    if (!collision(pacX,  pacY)) {
+                        makeAMove(pacX, (pacY));
                     }
                     for (Ghost ghost : ghosts) {
                         if (ghost.getX() == pac.getX() && ghost.getY() == pac.getY()) {
                             pac.setHealthPoints(pac.getHealthPoints() - 1);
-                            jTable.setValueAt(1, pac.getX(), pac.getY());
+                            jTable.setValueAt(Ghost.class, pac.getX(), pac.getY());
                             jTable.setValueAt(pac, 1, 1);
                             pac.setX(1);
                             pac.setY(1);
@@ -272,8 +296,7 @@ public class GameBoardFrame extends JFrame{
             Thread.sleep(1000);
             counter++;
             timeLabel.setText("time: "+counter+" ");
-            timeLabel.setBackground(Color.BLACK);
-            timeLabel.setForeground(Color.ORANGE);
+            timeLabel.setForeground(Color.BLACK);
             timeLabel.setOpaque(true);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -293,8 +316,13 @@ public class GameBoardFrame extends JFrame{
     }
 
     public void generateBonuses() {
-        for (int i = 0; i < ghosts.size(); i++)
-            generateBonus(ghosts.get(i));
+        if (bonusCounter<6) {
+            for (int i = 0; i < ghosts.size(); i++)
+                generateBonus(ghosts.get(i));
+            bonusCounter++;
+        }
+        else
+            return;
     }
 
     public boolean collision (int pacX, int pacY) {
@@ -304,27 +332,32 @@ public class GameBoardFrame extends JFrame{
     }
 
     public void makeAMove (int pacX, int pacY) {
-        jTable.setValueAt(2, pac.getX(), pac.getY());
-        if (jTable.getValueAt(pacX, pacY).equals(1))
+        if (jTable.getValueAt(pacX, pacY).equals(1)) {
             pac.addPoint();
+        }
         else if (jTable.getValueAt(pacX, pacY).equals(10)) {
-            ghostSpeed = 10;
+            ghostSpeed = 50;
+            bonusCounter--;
         }
         else if (jTable.getValueAt(pacX, pacY).equals(11)) {
             ghostSpeed = 300;
+            bonusCounter--;
         }
         else if (jTable.getValueAt(pacX, pacY).equals(12)) {
             pac.setPoints(pac.getPoints()+50);
+            bonusCounter--;
         }
         else if (jTable.getValueAt(pacX, pacY).equals(13)) {
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < 1; i++) {
                 Ghost ghost = new Ghost(jTable.getRowCount() / 2 + i, jTable.getColumnCount() / 2 + i);
                 ghosts.add(ghost);
                 jTable.setValueAt(ghost, jTable.getRowCount() / 2 + i, jTable.getColumnCount() / 2 + i);
                 moveGhost(i);
             }
+            bonusCounter--;
         }
         else if (jTable.getValueAt(pacX, pacY).equals(14)) {
+            ghosts.clear();
             for (int i = 0; i < jTable.getRowCount(); i++) {
                 for (int j = 0; j < jTable.getColumnCount(); j++) {
                     if (jTable.getValueAt(i,j).getClass().equals(Ghost.class)) {
@@ -332,74 +365,45 @@ public class GameBoardFrame extends JFrame{
                     }
                 }
             }
+            bonusCounter--;
         }
-        jTable.setValueAt(pac, pacX, pacY);
+        jTable.setValueAt(2, pac.getX(), pac.getY());
         pac.setX(pacX);
         pac.setY(pacY);
+        jTable.setValueAt(pac, pacX, pacY);
         jTable.repaint();
     }
     public void generateBonus(Ghost ghost) {
-        int randomRow = (int)(Math.random()*jTable.getRowCount());
-        int randomColumn = (int)(Math.random()*jTable.getColumnCount());
         double rand = Math.random()*1;
-        int bomba = (int)(Math.random()*1000000);
+        int bomba = (int)(Math.random()*10);
         if (rand <= 0.25 && rand >= 0) {
-            for (int i = 0; i < jTable.getRowCount(); i++) {
-                for (int j = 0; j < jTable.getColumnCount(); j++) {
-                    if (!jTable.getValueAt(i,j).equals(0) && !jTable.getValueAt(i,j).getClass().equals(PacMan.class) && !jTable.getValueAt(i,j).getClass().equals(Ghost.class)&& jTable.getValueAt(i,j).equals(2) && !jTable.getValueAt(i,j).equals(1) && i == randomRow && j == randomColumn) {
-                        jTable.setValueAt(10, i, j);
-                        return;
-                    }
-                }
-            }
-
-            System.out.println(ghost.getBonuses()[0]);
+            setBonusAtCell(10);
         }
         else if (rand <= 0.50 && rand > 0.25) {
-            for (int i = 0; i < jTable.getRowCount(); i++) {
-                for (int j = 0; j < jTable.getColumnCount(); j++) {
-                    if (!jTable.getValueAt(i,j).equals(0) && !jTable.getValueAt(i,j).getClass().equals(PacMan.class) && !jTable.getValueAt(i,j).getClass().equals(Ghost.class) && jTable.getValueAt(i,j).equals(2) && !jTable.getValueAt(i,j).equals(1)&& i == randomRow && j == randomColumn) {
-                        jTable.setValueAt(11, i, j);
-                        return;
-                    }
-                }
-            }
-            System.out.println(ghost.getBonuses()[1]);
+            setBonusAtCell(11);
         }
         else if (rand > 0.50 && rand <= 0.75) {
-            for (int i = 0; i < jTable.getRowCount(); i++) {
-                for (int j = 0; j < jTable.getColumnCount(); j++) {
-                    if (!jTable.getValueAt(i,j).equals(0) && !jTable.getValueAt(i,j).getClass().equals(PacMan.class) && !jTable.getValueAt(i,j).getClass().equals(Ghost.class) && jTable.getValueAt(i,j).equals(2) && !jTable.getValueAt(i,j).equals(1)&& i == randomRow && j == randomColumn)  {
-                        jTable.setValueAt(12, i, j);
-                        return;
-                    }
-                }
-            }
-            System.out.println(ghost.getBonuses()[2]);
+            setBonusAtCell(12);
         }
         else {
-            for (int i = 0; i < jTable.getRowCount(); i++) {
-                for (int j = 0; j < jTable.getColumnCount(); j++) {
-                    if (!jTable.getValueAt(i,j).equals(0) && !jTable.getValueAt(i,j).getClass().equals(PacMan.class) && !jTable.getValueAt(i,j).getClass().equals(Ghost.class) && jTable.getValueAt(i,j).equals(2) && !jTable.getValueAt(i,j).equals(1) && i == randomRow && j == randomColumn) {
-                        jTable.setValueAt(13, i, j);
-                        return;
-                    }
-                }
-            }
-            System.out.println(ghost.getBonuses()[3]);
+            setBonusAtCell(13);
         }
-        if (bomba == 30) {
-            for (int i = 0; i < jTable.getRowCount(); i++) {
-                for (int j = 0; j < jTable.getColumnCount(); j++) {
-                    if (!jTable.getValueAt(i,j).equals(0) && !jTable.getValueAt(i,j).getClass().equals(PacMan.class) && !jTable.getValueAt(i,j).getClass().equals(Ghost.class) && jTable.getValueAt(i,j).equals(2) && !jTable.getValueAt(i,j).equals(1) && i == randomRow && j == randomColumn) {
-                        jTable.setValueAt(14, i, j);
-                        return;
-                    }
-                }
-            }
-            System.out.println(ghost.getBonuses()[4]);
+        if (bomba == 1) {
+           setBonusAtCell(14);
         }
 
+    }
+    public void setBonusAtCell(int index) {
+        int randomRow = (int)(Math.random()*jTable.getRowCount());
+        int randomColumn = (int)(Math.random()*jTable.getColumnCount());
+        for (int i = 0; i < jTable.getRowCount(); i++) {
+            for (int j = 0; j < jTable.getColumnCount(); j++) {
+                if (!jTable.getValueAt(i,j).equals(0) && !jTable.getValueAt(i,j).getClass().equals(PacMan.class) && !jTable.getValueAt(i,j).getClass().equals(Ghost.class) && jTable.getValueAt(i,j).equals(2) && !jTable.getValueAt(i,j).equals(1)&& i == randomRow && j == randomColumn)  {
+                    jTable.setValueAt(index, i, j);
+                    return;
+                }
+            }
+        }
     }
 
 }

@@ -15,9 +15,9 @@ public class Menu extends JFrame{
 
         pack();
         setVisible(true);
+        setSize(600,400);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(600,400);
 
     }
 
@@ -61,6 +61,7 @@ public class Menu extends JFrame{
                                 if (res == JOptionPane.OK_OPTION) {
                                     String pacName = jTextField.getText();
                                     PacMan.getUsernames().get(counter++).setUsername(pacName);
+                                    PacMan.getUsernames().sort((PacMan a, PacMan b) -> b.getPoints() - a.getPoints());
                                 }
                             }
                         });
@@ -105,7 +106,8 @@ public class Menu extends JFrame{
                 HighScoresFrame highScoresFrame = new HighScoresFrame();
                 try {
                     highScoresFrame.getHighScoresModel().writeToFile();
-                } catch (IOException ex) {
+                    highScoresFrame.getHighScoresModel().readFromFile("HighScores.txt");
+                } catch (IOException | ClassNotFoundException ex) {
                     ex.printStackTrace();
                 }
             }

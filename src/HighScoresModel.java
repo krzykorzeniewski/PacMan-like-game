@@ -34,4 +34,10 @@ public class HighScoresModel extends AbstractListModel implements Serializable {
                 outputStream.writeObject(names.get(i));
         }
     }
+    public void readFromFile(String file) throws IOException, ClassNotFoundException {
+        try (ObjectInputStream inputStream = new ObjectInputStream((new FileInputStream(file)))) {
+            PacMan pac = (PacMan) inputStream.readObject();
+            System.out.println(pac);
+        }
+    }
 }
