@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.Vector;
 
-public class PacMan {
+public class PacMan implements Serializable {
     private String username;
     private int x;
     private int y;
@@ -8,6 +9,7 @@ public class PacMan {
     private boolean isAlive;
     private static Vector<PacMan> usernames = new Vector<>();
     private int points;
+    private int healthPoints = 3;
 
     public PacMan(int x, int y) {
         this.points = 0;
@@ -74,6 +76,18 @@ public class PacMan {
 
     public void setAlive(boolean alive) {
         isAlive = alive;
+    }
+
+    public int getHealthPoints() {
+        return healthPoints;
+    }
+
+    public void setHealthPoints(int healthPoints) {
+        this.healthPoints = healthPoints;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
     }
 }
 

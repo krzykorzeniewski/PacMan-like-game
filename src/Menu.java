@@ -2,6 +2,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 
 public class Menu extends JFrame{
     static int counter = 0;
@@ -56,7 +57,7 @@ public class Menu extends JFrame{
                                 jPanel.add(jLabel);
                                 JTextField jTextField = new JTextField();
                                 jPanel.add(jTextField);
-                                int res = JOptionPane.showConfirmDialog(null, jPanel, "Enter username", JOptionPane.OK_CANCEL_OPTION);
+                                int res = JOptionPane.showConfirmDialog(null, jPanel, "Game has ended! Enter your username!", JOptionPane.OK_CANCEL_OPTION);
                                 if (res == JOptionPane.OK_OPTION) {
                                     String pacName = jTextField.getText();
                                     PacMan.getUsernames().get(counter++).setUsername(pacName);
@@ -102,6 +103,11 @@ public class Menu extends JFrame{
             }
             else {
                 HighScoresFrame highScoresFrame = new HighScoresFrame();
+                try {
+                    highScoresFrame.getHighScoresModel().writeToFile();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
         return highScoresButton;

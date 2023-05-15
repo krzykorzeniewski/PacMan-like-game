@@ -3,11 +3,13 @@ import javax.swing.*;
 
 
 public class HighScoresFrame extends JFrame {
+    private HighScoresModel highScoresModel;
 
     public HighScoresFrame() {
+        this.highScoresModel = new HighScoresModel(PacMan.getUsernames());
 
         JList jList = new JList();
-        jList.setModel(new HighScoresModel(PacMan.getUsernames()));
+        jList.setModel(highScoresModel);
         JScrollPane jScrollPane = new JScrollPane(jList);
         add(jScrollPane);
 
@@ -19,4 +21,7 @@ public class HighScoresFrame extends JFrame {
 
     }
 
+    public HighScoresModel getHighScoresModel() {
+        return highScoresModel;
+    }
 }

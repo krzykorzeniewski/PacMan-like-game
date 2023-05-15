@@ -7,7 +7,7 @@ public class Ghost {
     private int y;
     private int direction;
     private boolean isAlive;
-    private String[] bonuses = {"Power Pellet", "Speed Boost", "Shield", "Double Points", "Super Jump"};
+    private String[] bonuses = {"Ghost Speed Boosted", "Ghost Speed Reduced", "Plus 100 Points", "3 Ghosts Spawn", "Eliminate all ghosts"};
 
     public Ghost(int x, int y) {
         this.x = x;
@@ -15,24 +15,7 @@ public class Ghost {
         this.isAlive = true;
     }
 
-    public void generateBonus() {
-        boolean temp = true;
-        while (temp) {
-            double rand = Math.random()*1;
-            if (rand <= 0.25 && rand >= 0) {
 
-            }
-            else if (rand <= 0.50 && rand > 0.25) {
-
-            }
-            else if (rand > 0.50 && rand <= 0.75) {
-
-            }
-            else {
-
-            }
-        }
-    }
 
     public int getMovementSpeed() {
         return movementSpeed;
