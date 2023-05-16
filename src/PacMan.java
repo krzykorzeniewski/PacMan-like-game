@@ -5,26 +5,18 @@ public class PacMan implements Serializable {
     private String username;
     private int x;
     private int y;
-    private int direction; // 0-prawo, 1-dol, 2-lewo, 3-gora
     private boolean isAlive;
     private static Vector<PacMan> usernames = new Vector<>();
     private int points;
-    private int healthPoints = 3;
+    private int healthPoints;
 
     public PacMan(int x, int y) {
+        this.healthPoints = 3;
         this.points = 0;
         this.isAlive = true;
         this.x = x;
         this.y = y;
         usernames.add(this);
-        this.direction = 0;
-    }
-
-    public void addUsername(PacMan pac) {
-        this.usernames.add(pac);
-    }
-    public String getUsername() {
-        return username;
     }
 
     public void setUsername(String username) {
@@ -38,12 +30,10 @@ public class PacMan implements Serializable {
     public int getPoints() {
         return points;
     }
-
     @Override
     public String toString() {
-        return "Username: ["+username+"] "+" High score: ["+points+"]";
+        return "Username: ["+username+"] "+"                         |                          High score: ["+points+"]";
     }
-
     public int getX() {
         return x;
     }
@@ -58,13 +48,6 @@ public class PacMan implements Serializable {
 
     public void setY(int y) {
         this.y = y;
-    }
-
-    public void setDirection(int direction) {
-        this.direction = direction;
-    }
-    public int getDirection() {
-        return direction;
     }
 
     public boolean isAlive() {

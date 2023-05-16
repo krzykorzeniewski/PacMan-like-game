@@ -5,7 +5,7 @@ import java.awt.event.*;
 import java.io.IOException;
 
 public class Menu extends JFrame{
-    static int counter = 0;
+    private static int counter = 0;
     public Menu() {
         generateMenu();
     }
@@ -22,12 +22,12 @@ public class Menu extends JFrame{
     }
 
     public JButton gameButton() {
-        Font font = new Font("Monospaced", Font.ITALIC | Font.BOLD, 40);
+        Font font = new Font("Monospaced", Font.BOLD, 40);
         JButton newGameButton = new JButton("New Game");
         newGameButton.setBorderPainted(false);
         newGameButton.setContentAreaFilled(false);
         newGameButton.setFont(font);
-        newGameButton.setForeground(Color.WHITE);
+        newGameButton.setForeground(Color.YELLOW);
         newGameButton.setToolTipText("Start new game");
         newGameButton.addActionListener(e -> {
             JPanel jPanel = new JPanel(new GridLayout(2, 2));
@@ -80,23 +80,23 @@ public class Menu extends JFrame{
 
 
     public JButton exitButton() {
-        Font font = new Font("Monospaced", Font.ITALIC | Font.BOLD, 40);
+        Font font = new Font("Monospaced",  Font.BOLD, 40);
         JButton exitButton = new JButton("Exit");
         exitButton.setBorderPainted(false);
         exitButton.setContentAreaFilled(false);
         exitButton.setFont(font);
-        exitButton.setForeground(Color.WHITE);
+        exitButton.setForeground(Color.CYAN);
         exitButton.setToolTipText("Exit game");
         exitButton.addActionListener(e -> System.exit(0));
         return exitButton;
     }
     public JButton highScoresButton() {
-        Font font = new Font("Monospaced", Font.ITALIC | Font.BOLD, 40);
+        Font font = new Font("Monospaced",  Font.BOLD, 40);
         JButton highScoresButton = new JButton("High Scores");
         highScoresButton.setBorderPainted(false);
         highScoresButton.setContentAreaFilled(false);
         highScoresButton.setFont(font);
-        highScoresButton.setForeground(Color.WHITE);
+        highScoresButton.setForeground(Color.GREEN);
         highScoresButton.setToolTipText("Open high scores table");
         highScoresButton.addActionListener(e -> {
             if (PacMan.getUsernames().isEmpty()) {

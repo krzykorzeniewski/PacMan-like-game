@@ -3,25 +3,18 @@ import java.io.*;
 import java.util.Vector;
 
 public class HighScoresModel extends AbstractListModel implements Serializable {
-
     private Vector<PacMan> names;
 
     public HighScoresModel(Vector<PacMan> names) {
         this.names = names;
     }
-
     @Override
     public int getSize() {
         return names.size();
     }
-
     @Override
     public Object getElementAt(int index) {
         return names.elementAt(index);
-    }
-
-    public Vector<PacMan> getNames() {
-        return names;
     }
 
     public void setNames(Vector<PacMan> names) {
@@ -36,8 +29,14 @@ public class HighScoresModel extends AbstractListModel implements Serializable {
     }
     public void readFromFile(String file) throws IOException, ClassNotFoundException {
         try (ObjectInputStream inputStream = new ObjectInputStream((new FileInputStream(file)))) {
-            PacMan pac = (PacMan) inputStream.readObject();
-            System.out.println(pac);
+            while (true) {
+                try {
+                    PacMan pac = (PacMan) inputStream.readObject();
+                    System.out.println(pac);
+                } catch (EOFException ex) {
+                    break;
+                }
+            }
         }
     }
 }

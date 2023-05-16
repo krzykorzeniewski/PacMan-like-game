@@ -1,6 +1,5 @@
 import javax.swing.table.AbstractTableModel;
 
-
 public class GameBoardModel extends AbstractTableModel {
 
 
@@ -26,7 +25,6 @@ public class GameBoardModel extends AbstractTableModel {
         }
     }
 
-
     @Override
     public int getRowCount() {
         return board.length;
@@ -40,26 +38,6 @@ public class GameBoardModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         return board[rowIndex][columnIndex];
-    }
-
-    public Object[][] getBoard() {
-        return board;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public void setLength(int length) {
-        this.length = length;
-    }
-
-    public void setBoardDimensions (int x, int y) {
-        this.board = new Object[x][y];
-    }
-
-    public void setBoard(Object[][] board) {
-        this.board = board;
     }
 
     @Override
