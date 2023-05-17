@@ -44,8 +44,6 @@ public class GameBoardFrame extends JFrame{
     private ImageIcon pacManDownImg;
     private ImageIcon pacManClosedImg;
     private ImageIcon pelletImg;
-    private ImageIcon brickImg;
-    private Image scaledBrickImage;
     private Image scaledBombImage;
     private Image scaledBoostImage;
     private Image scaledPelletImage;
@@ -66,7 +64,7 @@ public class GameBoardFrame extends JFrame{
         this.pointsLabel = new JLabel();
         this.timeLabel = new JLabel();
         this.healthPointsLabel = new JLabel();
-        this.ghostSpeed = 200;
+        this.ghostSpeed = 150;
 
         createGameTable();
         createImages();
@@ -342,7 +340,10 @@ public class GameBoardFrame extends JFrame{
         jTable.setModel(gameBoardModel);
         jTable.setGridColor(Color.BLACK);
         jTable.setCellSelectionEnabled(false);
+        jTable.setSelectionModel(createSelectionModel());
+        jTable.setColumnSelectionAllowed(false);
         jTable.setRowHeight(50);
+        jTable.getColumnModel().getColumn(0).setWidth(50);
         jTable.setValueAt(pac, pac.getX(), pac.getY());
         for (int i = 0; i < 3; i++) {
             Ghost ghost = new Ghost(jTable.getRowCount() / 2 + i, jTable.getColumnCount() / 2);
@@ -354,7 +355,6 @@ public class GameBoardFrame extends JFrame{
         this.gamePanel = new JPanel();
         this.gamePanel.setLayout(new BorderLayout());
         this.gamePanel.add(jTable, BorderLayout.CENTER);
-
         JScrollPane jScrollPane = new JScrollPane(gamePanel);
 
         this.infoPanel = new JPanel();
@@ -366,6 +366,7 @@ public class GameBoardFrame extends JFrame{
         setLayout(new BorderLayout());
         add(jScrollPane, BorderLayout.CENTER);
         add(infoPanel, BorderLayout.SOUTH);
+
         pack();
         setSize(jTable.getWidth()+100, jTable.getHeight()+100);
         setVisible(true);
@@ -378,9 +379,9 @@ public class GameBoardFrame extends JFrame{
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 Component c = super.getTableCellRendererComponent(table, value , isSelected, hasFocus, row,column);
                 if (value.equals(0)) {
-                    c.setBackground(Color.BLACK);
-                    c.setForeground(Color.BLACK);
-                    super.setIcon(new ImageIcon(scaledBrickImage));
+                    c.setBackground(Color.BLUE);
+                    c.setForeground(Color.BLUE);
+                    super.setIcon(null);
                 }
                 else if (value.equals(1)) {
                     c.setBackground(Color.BLACK);
@@ -504,20 +505,27 @@ public class GameBoardFrame extends JFrame{
         this.pacManDownImg = new ImageIcon("src/PacManDown.png");
         this.pacManClosedImg = new ImageIcon("src/PacManClosed.png");
         this.pelletImg = new ImageIcon("src/Pellet.png");
-        this.brickImg = new ImageIcon("src/Brick.png");
-        this.scaledBrickImage = brickImg.getImage().getScaledInstance(jTable.getColumnModel().getColumn(0).getWidth(), jTable.getRowHeight(), Image.SCALE_SMOOTH);
         this.scaledBombImage = bombImg.getImage().getScaledInstance(jTable.getColumnModel().getColumn(0).getWidth(), jTable.getRowHeight(), Image.SCALE_SMOOTH);
         this.scaledBoostImage = boostImg.getImage().getScaledInstance(jTable.getColumnModel().getColumn(0).getWidth(), jTable.getRowHeight(), Image.SCALE_SMOOTH);
-        this.scaledPelletImage = pelletImg.getImage().getScaledInstance(jTable.getColumnModel().getColumn(0).getWidth(), jTable.getRowHeight(), Image.SCALE_SMOOTH);
-        this.scaledGhostImage = ghostImg.getImage().getScaledInstance(jTable.getColumnModel().getColumn(0).getWidth(), jTable.getRowHeight(), Image.SCALE_SMOOTH);
-        this.scaledPacImage = pacManImg.getImage().getScaledInstance(jTable.getColumnModel().getColumn(0).getWidth(), jTable.getRowHeight(), Image.SCALE_SMOOTH);
-        this.scaledPacRightImage = pacManImg.getImage().getScaledInstance(jTable.getColumnModel().getColumn(0).getWidth(), jTable.getRowHeight(), Image.SCALE_SMOOTH);
-        this.scaledPacUpImage = pacManUpImg.getImage().getScaledInstance(jTable.getColumnModel().getColumn(0).getWidth(), jTable.getRowHeight(), Image.SCALE_SMOOTH);
-        this.scaledPacLeftImage = pacManLeftImg.getImage().getScaledInstance(jTable.getColumnModel().getColumn(0).getWidth(), jTable.getRowHeight(), Image.SCALE_SMOOTH);
-        this.scaledPacDownImage = pacManDownImg.getImage().getScaledInstance(jTable.getColumnModel().getColumn(0).getWidth(), jTable.getRowHeight(), Image.SCALE_SMOOTH);
-        this.scaledPacClosedImage = pacManClosedImg.getImage().getScaledInstance(jTable.getColumnModel().getColumn(0).getWidth(), jTable.getRowHeight(), Image.SCALE_SMOOTH);
+        this.scaledPelletImage = pelletImg.getImage().getScaledInstance(jTable.getColumnModel().getColumn(0).getWidth()-5, jTable.getRowHeight()/2, Image.SCALE_SMOOTH);
+        this.scaledGhostImage = ghostImg.getImage().getScaledInstance(jTable.getColumnModel().getColumn(0).getWidth()+5, jTable.getRowHeight()-20, Image.SCALE_SMOOTH);
+        this.scaledPacImage = pacManImg.getImage().getScaledInstance(jTable.getColumnModel().getColumn(0).getWidth()-23, jTable.getRowHeight()-23, Image.SCALE_SMOOTH);
+        this.scaledPacRightImage = pacManImg.getImage().getScaledInstance(jTable.getColumnModel().getColumn(0).getWidth()-23, jTable.getRowHeight()-23, Image.SCALE_SMOOTH);
+        this.scaledPacUpImage = pacManUpImg.getImage().getScaledInstance(jTable.getColumnModel().getColumn(0).getWidth()-23, jTable.getRowHeight()-23, Image.SCALE_SMOOTH);
+        this.scaledPacLeftImage = pacManLeftImg.getImage().getScaledInstance(jTable.getColumnModel().getColumn(0).getWidth()-23, jTable.getRowHeight()-23, Image.SCALE_SMOOTH);
+        this.scaledPacDownImage = pacManDownImg.getImage().getScaledInstance(jTable.getColumnModel().getColumn(0).getWidth()-23, jTable.getRowHeight()-23, Image.SCALE_SMOOTH);
+        this.scaledPacClosedImage = pacManClosedImg.getImage().getScaledInstance(jTable.getColumnModel().getColumn(0).getWidth()-23, jTable.getRowHeight()-23, Image.SCALE_SMOOTH);
     }
 
+    public ListSelectionModel createSelectionModel() {
+        ListSelectionModel myModel = new DefaultListSelectionModel() {
+            @Override
+            public void setSelectionInterval(int index0, int index1) {
+
+            }
+        };
+        return myModel;
+    }
 }
 
 

@@ -139,7 +139,6 @@ public class Menu extends JFrame{
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(file))) {
             for (int i = 0; i < PacMan.getPacMEN().size(); i++) {
                 outputStream.writeObject(PacMan.getPacMEN().get(i));
-                System.out.println(PacMan.getPacMEN().get(i));
             }
         }
     }
