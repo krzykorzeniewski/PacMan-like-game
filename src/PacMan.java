@@ -6,7 +6,7 @@ public class PacMan implements Serializable {
     private int x;
     private int y;
     private boolean isAlive;
-    private static Vector<PacMan> usernames = new Vector<>();
+    private static Vector<PacMan> pacMEN = new Vector<>();
     private int points;
     private int healthPoints;
 
@@ -16,15 +16,15 @@ public class PacMan implements Serializable {
         this.isAlive = true;
         this.x = x;
         this.y = y;
-        usernames.add(this);
+        pacMEN.add(this);
     }
 
     public void setUsername(String username) {
         this.username = username;
     }
 
-    public static Vector<PacMan> getUsernames() {
-        return usernames;
+    public static Vector<PacMan> getPacMEN() {
+        return pacMEN;
     }
 
     public int getPoints() {
@@ -32,7 +32,7 @@ public class PacMan implements Serializable {
     }
     @Override
     public String toString() {
-        return "Username: ["+username+"] "+"                         |                          High score: ["+points+"]";
+        return "Username: ["+username+"] "+" High score: ["+points+"]";
     }
     public int getX() {
         return x;
@@ -71,6 +71,10 @@ public class PacMan implements Serializable {
 
     public void setPoints(int points) {
         this.points = points;
+    }
+
+    public String getUsername() {
+        return username;
     }
 }
 

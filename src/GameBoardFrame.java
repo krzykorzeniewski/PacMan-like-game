@@ -35,27 +35,27 @@ public class GameBoardFrame extends JFrame{
     private List<Ghost> ghosts = new ArrayList<>();
     private GameBoardModel gameBoardModel;
     private PacMan pac;
-    private ImageIcon bombImg = new ImageIcon("src/Bomb.png");
-    private ImageIcon boostImg = new ImageIcon("src/Boost.jpeg");
-    private ImageIcon ghostImg = new ImageIcon("src/Ghost.png");
-    private ImageIcon pacManImg = new ImageIcon("src/PacMan.png");
-    private ImageIcon pacManUpImg = new ImageIcon("src/PacManUp.png");
-    private ImageIcon pacManLeftImg = new ImageIcon("src/PacManLeft.png");
-    private ImageIcon pacManDownImg = new ImageIcon("src/PacManDown.png");
-    private ImageIcon pacManClosedImg = new ImageIcon("src/PacManClosed.png");
-    private ImageIcon pelletImg = new ImageIcon("src/Pellet.png");
-    private ImageIcon brickImg = new ImageIcon("src/Brick.png");
-    private Image scaledBrickImage = brickImg.getImage().getScaledInstance(75, 55, Image.SCALE_SMOOTH);
-    private Image scaledBombImage = bombImg.getImage().getScaledInstance(35, 35, Image.SCALE_SMOOTH);
-    private Image scaledBoostImage = boostImg.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-    private Image scaledPelletImage = pelletImg.getImage().getScaledInstance(30, 20, Image.SCALE_SMOOTH);
-    private Image scaledGhostImage = ghostImg.getImage().getScaledInstance(45, 35, Image.SCALE_SMOOTH);
-    private Image scaledPacImage = pacManImg.getImage().getScaledInstance(55, 35, Image.SCALE_SMOOTH);
-    private Image scaledPacRightImage = pacManImg.getImage().getScaledInstance(55, 35, Image.SCALE_SMOOTH);
-    private Image scaledPacUpImage = pacManUpImg.getImage().getScaledInstance(55, 35, Image.SCALE_SMOOTH);
-    private Image scaledPacLeftImage = pacManLeftImg.getImage().getScaledInstance(55, 35, Image.SCALE_SMOOTH);
-    private Image scaledPacDownImage = pacManDownImg.getImage().getScaledInstance(55, 35, Image.SCALE_SMOOTH);
-    private Image scaledPacClosedImage = pacManClosedImg.getImage().getScaledInstance(55, 35, Image.SCALE_SMOOTH);
+    private ImageIcon bombImg;
+    private ImageIcon boostImg;
+    private ImageIcon ghostImg;
+    private ImageIcon pacManImg;
+    private ImageIcon pacManUpImg;
+    private ImageIcon pacManLeftImg;
+    private ImageIcon pacManDownImg;
+    private ImageIcon pacManClosedImg;
+    private ImageIcon pelletImg;
+    private ImageIcon brickImg;
+    private Image scaledBrickImage;
+    private Image scaledBombImage;
+    private Image scaledBoostImage;
+    private Image scaledPelletImage;
+    private Image scaledGhostImage;
+    private Image scaledPacImage;
+    private Image scaledPacRightImage;
+    private Image scaledPacUpImage;
+    private Image scaledPacLeftImage;
+    private Image scaledPacDownImage;
+    private Image scaledPacClosedImage;
     private int counter;
     private int animCounter;
     private int ghostSpeed;
@@ -69,7 +69,7 @@ public class GameBoardFrame extends JFrame{
         this.ghostSpeed = 200;
 
         createGameTable();
-
+        createImages();
         createFrame();
 
         jTable.setDefaultRenderer(Object.class, createCustomRenderer());
@@ -102,7 +102,8 @@ public class GameBoardFrame extends JFrame{
                 while (!Thread.interrupted()) {
                     pointsLabel.setText("score: "+pac.getPoints()+" ");
                     pointsLabel.setHorizontalAlignment(SwingConstants.CENTER);
-                    pointsLabel.setForeground(Color.BLACK);
+                    pointsLabel.setBackground(Color.BLACK);
+                    pointsLabel.setForeground(Color.YELLOW);
                     pointsLabel.setOpaque(true);
                 }
             }
@@ -112,7 +113,8 @@ public class GameBoardFrame extends JFrame{
             public void run() {
                 while (!Thread.interrupted()) {
                     healthPointsLabel.setText("health points "+pac.getHealthPoints()+" ");
-                    healthPointsLabel.setForeground(Color.BLACK);
+                    healthPointsLabel.setBackground(Color.BLACK);
+                    healthPointsLabel.setForeground(Color.YELLOW);
                     healthPointsLabel.setOpaque(true);
                 }
             }
@@ -138,9 +140,19 @@ public class GameBoardFrame extends JFrame{
                         pac.setAlive(false);
                     }
                     if (!pac.isAlive()) {
+                        ghostsMovement.interrupt();
+                        timer.interrupt();
+                        pointCounter.interrupt();
+                        healthPointsCounter.interrupt();
+                        bonusGenerator.interrupt();
                         dispose();
                     }
                     if (checkWinCondition()) {
+                        ghostsMovement.interrupt();
+                        timer.interrupt();
+                        pointCounter.interrupt();
+                        healthPointsCounter.interrupt();
+                        bonusGenerator.interrupt();
                         dispose();
                     }
                 }
@@ -162,22 +174,14 @@ public class GameBoardFrame extends JFrame{
             int nextX = ghosts.get(index).getX();
             int nextY = ghosts.get(index).getY();
 
-            switch (randomDirection) {
-                case 1:
-                    nextY--;
-                    break;
-                case 2:
-                    nextX--;
-                    break;
-                case 3:
-                    nextY++;
-                    break;
-                case 4:
-                    nextX++;
-                    break;
-                default:
-                    break;
+        switch (randomDirection) {
+            case 1 -> nextY--;
+            case 2 -> nextX--;
+            case 3 -> nextY++;
+            case 4 -> nextX++;
+            default -> {
             }
+        }
         if (!jTable.getValueAt(nextX, nextY).equals(0)) {
             if (jTable.getValueAt(nextX, nextY).equals(1)) {
                 jTable.setValueAt(1, ghosts.get(index).getX(), ghosts.get(index).getY());
@@ -209,7 +213,8 @@ public class GameBoardFrame extends JFrame{
             Thread.sleep(1000);
             counter++;
             timeLabel.setText("time: "+counter+" ");
-            timeLabel.setForeground(Color.BLACK);
+            timeLabel.setBackground(Color.BLACK);
+            timeLabel.setForeground(Color.YELLOW);
             timeLabel.setOpaque(true);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -332,17 +337,17 @@ public class GameBoardFrame extends JFrame{
     }
     public void createGameTable() {
         this.jTable = new JTable();
+        jTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         jTable.setBackground(Color.BLACK);
         jTable.setModel(gameBoardModel);
         jTable.setGridColor(Color.BLACK);
         jTable.setCellSelectionEnabled(false);
         jTable.setRowHeight(50);
-        jTable.getColumnModel().getColumn(0).setPreferredWidth(50);
         jTable.setValueAt(pac, pac.getX(), pac.getY());
         for (int i = 0; i < 3; i++) {
-            Ghost ghost = new Ghost(jTable.getRowCount() / 2 + i, jTable.getColumnCount() / 2 + i);
+            Ghost ghost = new Ghost(jTable.getRowCount() / 2 + i, jTable.getColumnCount() / 2);
             ghosts.add(ghost);
-            jTable.setValueAt(ghost, jTable.getRowCount() / 2 + i, jTable.getColumnCount() / 2 + i);
+            jTable.setValueAt(ghost, jTable.getRowCount() / 2 + i, jTable.getColumnCount() / 2);
         }
     }
     public void createFrame () {
@@ -352,11 +357,12 @@ public class GameBoardFrame extends JFrame{
 
         JScrollPane jScrollPane = new JScrollPane(gamePanel);
 
-
         this.infoPanel = new JPanel();
+        this.infoPanel.setBackground(Color.BLACK);
         this.infoPanel.add(pointsLabel);
         this.infoPanel.add(timeLabel);
         this.infoPanel.add(healthPointsLabel);
+
         setLayout(new BorderLayout());
         add(jScrollPane, BorderLayout.CENTER);
         add(infoPanel, BorderLayout.SOUTH);
@@ -421,7 +427,6 @@ public class GameBoardFrame extends JFrame{
             public void keyTyped(KeyEvent e) {
             }
 
-
             @Override
             public void keyPressed(KeyEvent e) {
                 int pacX = pac.getX();
@@ -429,26 +434,26 @@ public class GameBoardFrame extends JFrame{
 
                 try {
                     switch (e.getKeyCode()) {
-                        case 37:
+                        case 37 -> {
                             pacX = pac.getX();
-                            pacY = pac.getY()-1;
+                            pacY = pac.getY() - 1;
                             scaledPacImage = scaledPacLeftImage;
-                            break;
-                        case 38:
-                            pacX = pac.getX()-1;
+                        }
+                        case 38 -> {
+                            pacX = pac.getX() - 1;
                             pacY = pac.getY();
                             scaledPacImage = scaledPacUpImage;
-                            break;
-                        case 39:
+                        }
+                        case 39 -> {
                             pacX = pac.getX();
-                            pacY = pac.getY()+1;
+                            pacY = pac.getY() + 1;
                             scaledPacImage = scaledPacRightImage;
-                            break;
-                        case 40:
-                            pacX = pac.getX()+1;
+                        }
+                        case 40 -> {
+                            pacX = pac.getX() + 1;
                             pacY = pac.getY();
                             scaledPacImage = scaledPacDownImage;
-                            break;
+                        }
                     }
                     if (!collision(pacX,  pacY)) {
                         try {
@@ -464,7 +469,6 @@ public class GameBoardFrame extends JFrame{
                     jTable.setValueAt(pac, pac.getX(), pac.getY());
                 }
             }
-
 
             @Override
             public void keyReleased(KeyEvent e) {
@@ -490,6 +494,30 @@ public class GameBoardFrame extends JFrame{
             }
         }
     }
+    public void createImages() {
+        this.bombImg = new ImageIcon("src/Bomb.png");
+        this.boostImg = new ImageIcon("src/Boost.jpeg");
+        this.ghostImg = new ImageIcon("src/Ghost.png");
+        this.pacManImg = new ImageIcon("src/PacMan.png");
+        this.pacManUpImg = new ImageIcon("src/PacManUp.png");
+        this.pacManLeftImg = new ImageIcon("src/PacManLeft.png");
+        this.pacManDownImg = new ImageIcon("src/PacManDown.png");
+        this.pacManClosedImg = new ImageIcon("src/PacManClosed.png");
+        this.pelletImg = new ImageIcon("src/Pellet.png");
+        this.brickImg = new ImageIcon("src/Brick.png");
+        this.scaledBrickImage = brickImg.getImage().getScaledInstance(jTable.getColumnModel().getColumn(0).getWidth(), jTable.getRowHeight(), Image.SCALE_SMOOTH);
+        this.scaledBombImage = bombImg.getImage().getScaledInstance(jTable.getColumnModel().getColumn(0).getWidth(), jTable.getRowHeight(), Image.SCALE_SMOOTH);
+        this.scaledBoostImage = boostImg.getImage().getScaledInstance(jTable.getColumnModel().getColumn(0).getWidth(), jTable.getRowHeight(), Image.SCALE_SMOOTH);
+        this.scaledPelletImage = pelletImg.getImage().getScaledInstance(jTable.getColumnModel().getColumn(0).getWidth(), jTable.getRowHeight(), Image.SCALE_SMOOTH);
+        this.scaledGhostImage = ghostImg.getImage().getScaledInstance(jTable.getColumnModel().getColumn(0).getWidth(), jTable.getRowHeight(), Image.SCALE_SMOOTH);
+        this.scaledPacImage = pacManImg.getImage().getScaledInstance(jTable.getColumnModel().getColumn(0).getWidth(), jTable.getRowHeight(), Image.SCALE_SMOOTH);
+        this.scaledPacRightImage = pacManImg.getImage().getScaledInstance(jTable.getColumnModel().getColumn(0).getWidth(), jTable.getRowHeight(), Image.SCALE_SMOOTH);
+        this.scaledPacUpImage = pacManUpImg.getImage().getScaledInstance(jTable.getColumnModel().getColumn(0).getWidth(), jTable.getRowHeight(), Image.SCALE_SMOOTH);
+        this.scaledPacLeftImage = pacManLeftImg.getImage().getScaledInstance(jTable.getColumnModel().getColumn(0).getWidth(), jTable.getRowHeight(), Image.SCALE_SMOOTH);
+        this.scaledPacDownImage = pacManDownImg.getImage().getScaledInstance(jTable.getColumnModel().getColumn(0).getWidth(), jTable.getRowHeight(), Image.SCALE_SMOOTH);
+        this.scaledPacClosedImage = pacManClosedImg.getImage().getScaledInstance(jTable.getColumnModel().getColumn(0).getWidth(), jTable.getRowHeight(), Image.SCALE_SMOOTH);
+    }
+
 }
 
 

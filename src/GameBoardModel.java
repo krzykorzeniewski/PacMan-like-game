@@ -1,5 +1,6 @@
 import javax.swing.table.AbstractTableModel;
 
+
 public class GameBoardModel extends AbstractTableModel {
 
 
@@ -47,3 +48,7 @@ public class GameBoardModel extends AbstractTableModel {
     }
 
 }
+
+
+
+

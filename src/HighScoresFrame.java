@@ -4,10 +4,11 @@ import java.awt.*;
 
 public class HighScoresFrame extends JFrame {
     private HighScoresModel highScoresModel;
+    private Image backgroundImage;
 
     public HighScoresFrame() {
-        this.highScoresModel = new HighScoresModel(PacMan.getUsernames());
-        Image img = new ImageIcon("src/JListBackground.png").getImage();
+        this.highScoresModel = new HighScoresModel(PacMan.getPacMEN());
+        this.backgroundImage = new ImageIcon("src/JListBackground.png").getImage();
 
         JList jList = new JList();
         jList.setModel(highScoresModel);
@@ -15,7 +16,7 @@ public class HighScoresFrame extends JFrame {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                g.drawImage(img, 0, 0, getWidth(),getHeight(),null);
+                g.drawImage(backgroundImage, 0, 0, getWidth(),getHeight(),null);
             }
         };
         jPanel.add(jList);

@@ -1,18 +1,20 @@
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
+import java.io.*;
 
 public class Menu extends JFrame{
-    private static int counter = 0;
     public Menu() {
         generateMenu();
     }
 
     public void generateMenu() {
         generateButtonsAndBackground();
-
+        try {
+            readFromFile("HighScores.txt");
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         pack();
         setVisible(true);
         setSize(600,400);
@@ -60,8 +62,16 @@ public class Menu extends JFrame{
                                 int res = JOptionPane.showConfirmDialog(null, jPanel, "Game has ended! Enter your username!", JOptionPane.OK_CANCEL_OPTION);
                                 if (res == JOptionPane.OK_OPTION) {
                                     String pacName = jTextField.getText();
-                                    PacMan.getUsernames().get(counter++).setUsername(pacName);
-                                    PacMan.getUsernames().sort((PacMan a, PacMan b) -> b.getPoints() - a.getPoints());
+                                    for (int i = 0; i < PacMan.getPacMEN().size(); i++) {
+                                        if (PacMan.getPacMEN().get(i).getUsername() == null)
+                                            PacMan.getPacMEN().get(i).setUsername(pacName);
+                                    }
+                                    PacMan.getPacMEN().sort((PacMan a, PacMan b) -> b.getPoints() - a.getPoints());
+                                    try {
+                                        writeToFile();
+                                    } catch (IOException ex) {
+                                        ex.printStackTrace();
+                                    }
                                 }
                             }
                         });
@@ -99,17 +109,11 @@ public class Menu extends JFrame{
         highScoresButton.setForeground(Color.GREEN);
         highScoresButton.setToolTipText("Open high scores table");
         highScoresButton.addActionListener(e -> {
-            if (PacMan.getUsernames().isEmpty()) {
+            if (PacMan.getPacMEN().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "High scores list is empty!");
             }
             else {
                 HighScoresFrame highScoresFrame = new HighScoresFrame();
-                try {
-                    highScoresFrame.getHighScoresModel().writeToFile();
-                    highScoresFrame.getHighScoresModel().readFromFile("HighScores.txt");
-                } catch (IOException | ClassNotFoundException ex) {
-                    ex.printStackTrace();
-                }
             }
         });
         return highScoresButton;
@@ -129,5 +133,26 @@ public class Menu extends JFrame{
         jPanel.add(exitButton());
         jPanel.setOpaque(true);
         add(jPanel);
+    }
+    public void writeToFile() throws IOException {
+        File file = new File("HighScores.txt");
+        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(file))) {
+            for (int i = 0; i < PacMan.getPacMEN().size(); i++) {
+                outputStream.writeObject(PacMan.getPacMEN().get(i));
+                System.out.println(PacMan.getPacMEN().get(i));
+            }
+        }
+    }
+    public void readFromFile(String file) throws IOException, ClassNotFoundException {
+        try (ObjectInputStream inputStream = new ObjectInputStream((new FileInputStream(file)))) {
+            while (true) {
+                try {
+                    PacMan pac = (PacMan) inputStream.readObject();
+                    PacMan.getPacMEN().add(pac);
+                } catch (EOFException ex) {
+                    break;
+                }
+            }
+        }
     }
 }
