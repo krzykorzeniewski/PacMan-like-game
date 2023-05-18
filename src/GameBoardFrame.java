@@ -99,6 +99,7 @@ public class GameBoardFrame extends JFrame{
             public void run() {
                 while (!Thread.interrupted()) {
                     pointsLabel.setText("score: "+pac.getPoints()+" ");
+                    pointsLabel.setFont(new Font("Arial", Font.BOLD, 20));
                     pointsLabel.setHorizontalAlignment(SwingConstants.CENTER);
                     pointsLabel.setBackground(Color.BLACK);
                     pointsLabel.setForeground(Color.YELLOW);
@@ -111,6 +112,7 @@ public class GameBoardFrame extends JFrame{
             public void run() {
                 while (!Thread.interrupted()) {
                     healthPointsLabel.setText("health points "+pac.getHealthPoints()+" ");
+                    healthPointsLabel.setFont(new Font("Arial", Font.BOLD, 20));
                     healthPointsLabel.setBackground(Color.BLACK);
                     healthPointsLabel.setForeground(Color.YELLOW);
                     healthPointsLabel.setOpaque(true);
@@ -211,6 +213,7 @@ public class GameBoardFrame extends JFrame{
             Thread.sleep(1000);
             counter++;
             timeLabel.setText("time: "+counter+" ");
+            timeLabel.setFont(new Font("Arial", Font.BOLD, 20));
             timeLabel.setBackground(Color.BLACK);
             timeLabel.setForeground(Color.YELLOW);
             timeLabel.setOpaque(true);

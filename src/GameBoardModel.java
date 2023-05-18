@@ -14,17 +14,6 @@ public class GameBoardModel extends AbstractTableModel {
         this.length = length;
         this.board = new Object[width][length];
         generateMap();
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
-                if (i == board.length/2) {
-                    board[i][j] = 1;
-                }
-                if (i == 1 || i == board.length-2 || j == 1 || j == board[0].length-2)
-                    board[i][j] = 1;
-                if (i == 0 || i == board.length-1 || j == 0 || j == board[0].length-1)
-                    board[i][j] = 0;
-            }
-        }
     }
 
     @Override
@@ -54,14 +43,16 @@ public class GameBoardModel extends AbstractTableModel {
             }
         }
 
-        board[1][1] = 1;
+        int randomRow = (int)(Math.random()*(board.length-1)+1);
+        int randomCol = (int)(Math.random()*(board[0].length-1)+1);
+        board[randomRow][randomCol] = 1;
 
         ArrayList<int[]> neighbours = new ArrayList<>();
         ArrayList<int[]> temp = new ArrayList<>();
-        temp.add(new int[]{1, 1});
+        temp.add(new int[]{randomRow, randomCol});
 
         while (temp.size() != 0) {
-            int[] currentCell = temp.get(temp.size()-1);
+            int[] currentCell = temp.get(temp.size() - 1);
             int row = currentCell[0];
             int col = currentCell[1];
             if (col > 2 && board[row][col - 2].equals(0)) {
@@ -85,12 +76,21 @@ public class GameBoardModel extends AbstractTableModel {
                 board[(row + nextRow) / 2][(col + nextCol) / 2] = 1;
                 temp.add(nextCell);
             } else {
-                temp.remove(temp.size()-1);
+                temp.remove(temp.size() - 1);
             }
             neighbours.clear();
         }
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                if (i == 1 || i == board.length-2 || j == 1 || j == board[0].length-2)
+                    board[i][j] = 1;
+                if (i == 0 || i == board.length-1 || j == 0 || j == board[0].length-1)
+                    board[i][j] = 0;
+            }
+        }
     }
 }
+
 
 
 

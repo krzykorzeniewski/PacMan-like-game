@@ -23,7 +23,6 @@ public class HighScoresFrame extends JFrame {
 
         JScrollPane jScrollPane = new JScrollPane(jPanel);
         add(jScrollPane);
-
         pack();
         setSize(400, 300);
         setVisible(true);
