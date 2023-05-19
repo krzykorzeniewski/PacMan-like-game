@@ -322,7 +322,7 @@ public class GameBoardFrame extends JFrame{ //board frame
     }
     public void playSound() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         if (!eatingClip.isActive()) {
-            audioInputStream = AudioSystem.getAudioInputStream(new File("src/EatingSound.wav").getAbsoluteFile());
+            audioInputStream = AudioSystem.getAudioInputStream(new File("src/EatingSoundFile.wav").getAbsoluteFile());
             eatingClip = AudioSystem.getClip();
             eatingClip.open(audioInputStream);
             eatingClip.start();
@@ -330,7 +330,7 @@ public class GameBoardFrame extends JFrame{ //board frame
     }
     public void playLosingSound() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         if (!losingClip.isActive()) {
-            audioInputStream = AudioSystem.getAudioInputStream(new File("src/LoseSound.wav").getAbsoluteFile());
+            audioInputStream = AudioSystem.getAudioInputStream(new File("src/LoseSoundFile.wav").getAbsoluteFile());
             losingClip = AudioSystem.getClip();
             losingClip.open(audioInputStream);
             losingClip.start();
