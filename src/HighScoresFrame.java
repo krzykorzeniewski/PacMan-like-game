@@ -8,7 +8,7 @@ public class HighScoresFrame extends JFrame { //high scores list model
 
     public HighScoresFrame() {
         this.highScoresModel = new HighScoresModel(PacMan.getPacMEN());
-        this.backgroundImage = new ImageIcon("src/JListBackground.png").getImage();
+        this.backgroundImage = new ImageIcon("src/JListBackgroundImage.png").getImage();
 
         JList jList = new JList();
         jList.setModel(highScoresModel);

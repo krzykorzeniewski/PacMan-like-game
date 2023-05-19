@@ -119,7 +119,7 @@ public class Menu extends JFrame{ //buttons and background pic
         return highScoresButton;
     }
     public void generateButtonsAndBackground () {
-        Image img = new ImageIcon("src/Background.jpeg").getImage();
+        Image img = new ImageIcon("src/BackgroundImage.jpeg").getImage();
         JPanel jPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {

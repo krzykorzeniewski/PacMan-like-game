@@ -499,15 +499,15 @@ public class GameBoardFrame extends JFrame{ //board frame
         }
     }
     public void createImages() {
-        this.bombImg = new ImageIcon("src/Bomb.png");
-        this.boostImg = new ImageIcon("src/Boost.jpeg");
-        this.ghostImg = new ImageIcon("src/Ghost.png");
-        this.pacManImg = new ImageIcon("src/PacMan.png");
-        this.pacManUpImg = new ImageIcon("src/PacManUp.png");
-        this.pacManLeftImg = new ImageIcon("src/PacManLeft.png");
-        this.pacManDownImg = new ImageIcon("src/PacManDown.png");
-        this.pacManClosedImg = new ImageIcon("src/PacManClosed.png");
-        this.pelletImg = new ImageIcon("src/Pellet.png");
+        this.bombImg = new ImageIcon("src/BombImage.png");
+        this.boostImg = new ImageIcon("src/BoostImage.jpeg");
+        this.ghostImg = new ImageIcon("src/GhostImage.png");
+        this.pacManImg = new ImageIcon("src/PacManImage.png");
+        this.pacManUpImg = new ImageIcon("src/PacManUpImage.png");
+        this.pacManLeftImg = new ImageIcon("src/PacManLeftImage.png");
+        this.pacManDownImg = new ImageIcon("src/PacManDownImage.png");
+        this.pacManClosedImg = new ImageIcon("src/PacManClosedImage.png");
+        this.pelletImg = new ImageIcon("src/PelletImage.png");
         this.scaledBombImage = bombImg.getImage().getScaledInstance(jTable.getColumnModel().getColumn(0).getWidth(), jTable.getRowHeight(), Image.SCALE_SMOOTH);
         this.scaledBoostImage = boostImg.getImage().getScaledInstance(jTable.getColumnModel().getColumn(0).getWidth(), jTable.getRowHeight(), Image.SCALE_SMOOTH);
         this.scaledPelletImage = pelletImg.getImage().getScaledInstance(jTable.getColumnModel().getColumn(0).getWidth()-5, jTable.getRowHeight()/2, Image.SCALE_SMOOTH);
