@@ -1,4 +1,4 @@
-public class Ghost {
+public class Ghost { //ghost
     private int x;
     private int y;
     private int direction;

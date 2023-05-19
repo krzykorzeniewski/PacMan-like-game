@@ -1,7 +1,7 @@
 import java.io.Serializable;
 import java.util.Vector;
 
-public class PacMan implements Serializable {
+public class PacMan implements Serializable { //serialization and PacMan
     private String username;
     private int x;
     private int y;

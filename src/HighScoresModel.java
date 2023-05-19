@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.util.Vector;
 
-public class HighScoresModel extends AbstractListModel{
+public class HighScoresModel extends AbstractListModel{ //high scores list model
     private Vector<PacMan> names;
 
     public HighScoresModel(Vector<PacMan> names) {

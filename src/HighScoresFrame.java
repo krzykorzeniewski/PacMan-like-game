@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 
 
-public class HighScoresFrame extends JFrame {
+public class HighScoresFrame extends JFrame { //high scores list model
     private HighScoresModel highScoresModel;
     private Image backgroundImage;
 

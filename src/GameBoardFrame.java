@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameBoardFrame extends JFrame{
+public class GameBoardFrame extends JFrame{ //board frame
     private Clip eatingClip;
     {
         try {

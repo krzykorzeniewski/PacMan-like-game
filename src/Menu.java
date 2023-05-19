@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 
-public class Menu extends JFrame{
+public class Menu extends JFrame{ //buttons and background pic
     public Menu() {
         generateMenu();
     }

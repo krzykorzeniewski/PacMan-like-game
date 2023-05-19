@@ -2,7 +2,7 @@ import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class GameBoardModel extends AbstractTableModel {
+public class GameBoardModel extends AbstractTableModel { //board model
 
 
     private int width;
