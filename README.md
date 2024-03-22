@@ -1,1 +1,1 @@
-Warning! This code is awful
+Warning! This code is awful :)
